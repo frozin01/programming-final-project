@@ -5,13 +5,15 @@ This function does following tasks:
 1. Show welcome message.
 2. Provide process to login or create account by inputs username and password.
 3. Once login successfully, it provides process to:
-    - Show user's best score in each language and timer duration.
-    - Show leaderboard based on language and timer duration, order by most word correct.
+    - Show user's information including username, password, as well as best score in each language and timer.
+    - Show leaderboard based on language and timer, order by most word correct.
     - Start the game.
 '''
 
 # Library imports
 from user import User
+from leaderboard import load_leaderboard, show_leaderboard, update_leaderboard
+from game import start_game
 
 # Main function
 def main():
@@ -30,6 +32,7 @@ def main():
         print('2. Create Account')
         print('3. Exit')
         option = input('\nEnter option (1, 2 or 3): ')
+
         if option == '1': # Login
             username = input('\nEnter username: ')
             password = input('Enter password: ')
@@ -39,6 +42,7 @@ def main():
                 print(f'\nLogin successful, welcome, {user.username}!')
             else:
                 print('\nInvalid username or password, please try again!')
+
         elif option == '2': # Create account
             username = input('\nEnter desired username: ')
             password = input('Enter desired password: ')
@@ -49,37 +53,56 @@ def main():
                 new_user = User(username, password)
                 new_user.save_user_to_files()
                 print(f'\nAccount created successfully, you can now login, {username}!')
+
         elif option == '3': # Exit
             print('\nExiting the program, goodbye!')
             break
+
         else:
             print('\nInvalid option, please enter 1, 2 or 3!')
 
-        # Once login successfully, show user's best score, leaderboard or start the game
+        # Once login successfully, show user's information, leaderboard or start the game
         while is_login:
             print('\nPlease select an option:')
-            print('1. View Your Best Scores')
+            print('1. View Your Information')
             print('2. View Leaderboard')
             print('3. Start the Game')
             print('4. Logout')
             print('5. Exit')
             option = input('\nEnter option (1, 2, 3, 4 or 5): ')
-            if option == '1': # View best scores
-                print('\nYour Best Scores:')
-                print(f'- Indonesian 30 seconds: {user.best_indonesian_30} words correct')
-                print(f'- Indonesian 60 seconds: {user.best_indonesian_60} words correct')
-                print(f'- English 30 seconds: {user.best_english_30} words correct')
-                print(f'- English 60 seconds: {user.best_english_60} words correct')
+
+            if option == '1': # View your information
+                print(user)
+
             elif option == '2': # View leaderboard
-                print('\nLeaderboard feature is under development, please check back later!')
+                language = input('\nEnter language (indonesian/english): ').lower()
+                timer = input('Enter timer duration (30/60 seconds): ')
+                if language in ['indonesian', 'english'] and timer in ['30', '60']:
+                    leaderboard = load_leaderboard(language, timer) # Load leaderboard data
+                    show_leaderboard(leaderboard) # Show leaderboard data
+                else:
+                    print('\nInvalid language or timer duration, please try again!')
+
             elif option == '3': # Start the game
-                print('\nGame feature is under development, please check back later!')
+                language = input('\nEnter language (indonesian/english): ').lower()
+                timer = input('Enter timer duration (30/60 seconds): ')
+                if language in ['indonesian', 'english'] and timer in ['30', '60']:
+                    words_correct = start_game(language, timer) # Start the game with selected language and timer
+                    is_satisfied = user.set_best_score(language, timer, words_correct) # Check and set best score if satisfied
+                    if is_satisfied:
+                        user.update_user_in_files() # Update user data in files/user.csv
+                    update_leaderboard(user.username, language, timer, words_correct) # Update leaderboard data
+                else:
+                    print('\nInvalid language or timer duration, please try again!')
+
             elif option == '4': # Logout
                 print(f'\nLogging out, goodbye, {user.username}!')
                 break
+
             elif option == '5': # Exit
                 print('\nExiting the program, goodbye!')
                 return
+            
             else:
                 print('\nInvalid option, please enter 1, 2, 3, 4 or 5!')
 
