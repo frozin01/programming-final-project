@@ -21,7 +21,7 @@ Programming final project that designs and develops a program in Python.
             - Random words in the selected language appear on the screen.
             - The user must type each word exactly as shown.
         5. The game ends automatically when the timer is off.
-        6. User get the result in details (temporary), contains of list of word correct or incorrect as well as translated of each word in english (except english language).
+        6. User get the result number of word correct.
 
 ---
 
