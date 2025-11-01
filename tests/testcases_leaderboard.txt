@@ -1,0 +1,27 @@
+Function:                
+    sort_leaderboard
+Input:
+    [
+        {'username': 'user1', 'words_correct': 5},
+        {'username': 'user2', 'words_correct': 10},
+        {'username': 'user3', 'words_correct': 7}
+    ]
+Expected output:
+    [
+        {'username': 'user2', 'words_correct': 10},
+        {'username': 'user3', 'words_correct': 7},
+        {'username': 'user1', 'words_correct': 5}
+    ]
+Justification:
+    Positive case, user2 -> user3 -> user1
+----------------------------------------------------------------
+Function:                
+    load_leaderboard
+Input:
+    language = 'indonesian' and timer = '30'
+Expected output:
+    [
+        {'username': 'rozin', 'words_correct': 14}
+    ]
+Justification:
+    Positive case, there is only rozin and 14 words_correct

@@ -1,0 +1,3 @@
+Function             Input			 Expected output		                       Justification
+load_language        indonesian	     [['sebagai','as'],['saya','I']]			   Positive case, list of list with 2 items
+load_language        english	     ['a','ability']			                   Positive case, list with 2 items

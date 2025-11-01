@@ -9,11 +9,15 @@ This module has following functions:
 def load_language(language):
     language_data = []
     try:
+        header_counter = 0 # To skip header lines
         with open(f'files/language/{language}.txt', 'r') as f:
             for line in f:
+                if header_counter < 2:
+                    header_counter += 1
+                    continue
                 line = line.strip()
                 if language == 'english':
-                    language_data.append([line])  # English is a list
+                    language_data.append(line)  # English is a list
                 else: # Indonesian
                     word_translation = line.split(' = ') # Words and translations
                     language_data.append(word_translation) # Indonesian is a list of lists [word, translation]

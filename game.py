@@ -36,25 +36,28 @@ def start_game(language, timer):
     countdown_timer(5) # Countdown before starting the game
     start_time = time.time()
     elapsed_time = 0
-    while elapsed_time < int(timer):  
-        # Word appears
-        if language == 'english':
-            word_pair = random.choice(language_data)
-            word = word_pair[0].lower()
-            print(f'\nType the word: {word}')
-        else: # Indonesian
-            word_pair = random.choice(language_data)
-            word = word_pair[0].lower()
-            translation = word_pair[1].lower()
-            print(f'\nType the word: {word} =============== (English: {translation})')
-        # User typing
-        user_input = input('Your input: ').lower()
-        if user_input == word:
-            words_correct += 1
-            print('Correct!')
-        else:
-            print('Incorrect!')
-        elapsed_time = time.time() - start_time
+    try:
+        while elapsed_time < int(timer):  
+            # Word appears
+            if language == 'english':
+                word_pair = random.choice(language_data)
+                word = word_pair.lower()
+                print(f'\nType the word: {word}')
+            else: # Indonesian
+                word_pair = random.choice(language_data)
+                word = word_pair[0].lower()
+                translation = word_pair[1].lower()
+                print(f'\nType the word: {word} =============== (English: {translation})')
+            # User typing
+            user_input = input('Your input: ').lower()
+            if user_input == word:
+                words_correct += 1
+                print('Correct!')
+            else:
+                print('Incorrect!')
+            elapsed_time = time.time() - start_time
+    except Exception as e:
+        print(f'Error: {e}')
 
     # After the game
     print(f'\nTime is up! You typed {words_correct} words correctly.')
